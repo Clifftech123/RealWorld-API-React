@@ -37,7 +37,7 @@ const LoginFormComponent = () => {
             token: user.token,
             email: user.email,
             username: user.username,
-            // You can also add bio and image here if needed
+            bio: user.bio,
           }),
         );
         toast.success('Login successful');

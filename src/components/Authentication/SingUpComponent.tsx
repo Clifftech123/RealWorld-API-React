@@ -36,7 +36,7 @@ const SingUpComponent = () => {
   e.preventDefault();
   try {
     const userData = await registerUser({ ...formData }).unwrap();
-    dispatch(setToken(userData.token?.toString() || '')); // Use optional chaining and convert to string
+    dispatch(setToken(userData.token?.toString() || '')); 
     toast.success('Registration successful');
     // Clear form fields
     setFormData({
