@@ -1,28 +1,63 @@
-
+import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../app/hook';
 
 const HeaderComponent = () => {
+  const { token, username, email, image } = useAppSelector((state) => state.user);
+
   return (
     <nav className="navbar navbar-light">
-    <div className="container">
-      <a className="navbar-brand" href="/">conduit</a>
-      <ul className="nav navbar-nav pull-xs-right">
-        <li className="nav-item">
-        {/*   <!-- Add "active" className when you're on that page" --> */}
-          <a className="nav-link active" href="/">Home</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="/login">Sign in</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="/register">Sign up</a>
-        </li>
-      </ul>
-      {/* when the user is login we how this  */}
+      <div className="container">
+        <Link className="navbar-brand" to="/">
+          conduit
+        </Link>
+        <ul className="nav navbar-nav pull-xs-right">
+          <li className="nav-item">
+            <Link className="nav-link active" to="/">
+              Home
+            </Link>
+          </li>
+          {token && (
+            <>
+              <li className="nav-item">
+                <Link className="nav-link" to="/editor">
+                  <i className="ion-compose"></i>&nbsp;New Article
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/settings">
+                  <i className="ion-gear-a"></i>&nbsp;Settings
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={`/profile/${username}`}>
+                  {image ? (
+                    <img src={image} className="user-pic" alt="User Profile" />
+                  ) : (
+                    <span className="user-pic-placeholder">No Image</span>
+                  )}
+                  {username}
+                </Link>
+              </li>
+            </>
+          )}
+          {!token && (
+            <>
+              <li className="nav-item">
+                <Link className="nav-link" to="/login">
+                  Sign in
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/register">
+                  Sign up
+                </Link>
+              </li>
+            </>
+          )}
+        </ul>
+      </div>
+    </nav>
+  );
+};
 
- 
-    </div>
-  </nav>
-  )
-}
-
-export default HeaderComponent
+export default HeaderComponent;
