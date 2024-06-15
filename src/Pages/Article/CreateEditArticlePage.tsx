@@ -2,6 +2,8 @@ import CreateEditArticleComponent from "../../components/Article/CreateEditArtic
 import LayoutComponent from "../../components/Layout"
 
 
+// CreateEditArticlePage: A page component that wraps the CreateEditArticleComponent in a layout.
+// Utilizes LayoutComponent to maintain consistent page structure and styling across the app.
 const CreateEditArticlePage = () => {
   return (
      <LayoutComponent>

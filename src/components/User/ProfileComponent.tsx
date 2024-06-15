@@ -1,6 +1,8 @@
 
 
 const ProfileComponent = () => {
+
+  
   return (
     <div className="profile-page">
   <div className="user-info">

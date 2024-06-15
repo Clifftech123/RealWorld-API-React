@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { useRegisterUserMutation } from '../../services/userService';
+import { useRegisterUserMutation } from '../../services/User/userService';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../app/hook'
 import { toast } from 'react-toastify';
-import { setToken } from '../../features/UserSlice';
 
 
 interface FormData {
@@ -14,51 +12,54 @@ interface FormData {
 
 const SingUpComponent = () => {
 
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch()
 
-  const [formData, setFormData] = useState<FormData>({
-    username: '',
-    email: '',
-    password: '',
-  });
-  const [registerUser, { isLoading, isError, error }] = useRegisterUserMutation();
-  const [errorMessage, setErrorMessage] = useState('');
-  
+const navigate = useNavigate();
 
+// Initialize form data state with default values
+const [formData, setFormData] = useState<FormData>({
+  username: '',
+  email: '',
+  password: '',
+});
+// Use the custom hook for registering a user, which returns the mutation function and its state
+const [registerUser, { isLoading }] = useRegisterUserMutation();
+// State for storing and displaying error messages
+const [errorMessage, setErrorMessage] = useState('');
 
+// Function to handle form field changes, updating the formData state
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setFormData({ ...formData, [e.target.name]: e.target.value });
+};
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+// Function to handle form submission
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault(); // Prevent default form submission behavior
   try {
-    const userData = await registerUser({ ...formData }).unwrap();
-    dispatch(setToken(userData.token?.toString() || '')); 
+    // Attempt to register the user with the provided form data
+    await registerUser({ ...formData }).unwrap();
+    
+    // Show success message upon successful registration
     toast.success('Registration successful');
-    // Clear form fields
+    // Reset form fields to initial state
     setFormData({
       username: '',
       email: '',
       password: '',
     });
 
+    // Navigate to the login page after successful registration
     navigate('/login');
-  } catch (err: any) {
-    if (err.data && err.data.errors) {
+  } catch (err: any) { // Catch and handle any errors during registration
+    // Set error message based on the error response, defaulting to a generic error message
+    if (err.data?.errors) {
       setErrorMessage(err.data.errors.email || 'An error occurred');
     } else {
       setErrorMessage('An error occurred');
     }
   }
 };
-
   
   
-  
-
   return (
     <div className="auth-page">
       <div className="container page">

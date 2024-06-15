@@ -3,6 +3,7 @@ import LayoutComponent from "../../components/Layout"
 
 
 const ArticlePage = () => {
+   // ArticlePage: Renders an article using ArticleComponent within the global layout (LayoutComponent).
   return (
      <LayoutComponent>
         <ArticleComponent />

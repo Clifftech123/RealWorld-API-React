@@ -1,15 +1,30 @@
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../app/hook';
+import { useGetCurrentUserQuery } from '../../services/User/userService';
 
 const HeaderComponent = () => {
-  const { token, username, email, image } = useAppSelector((state) => state.user);
+  const { token } = useAppSelector((state) => state.user);
+
+  const { data: currentUser, isSuccess } = useGetCurrentUserQuery(undefined, {
+    skip: !token, 
+  });
+  console.log(currentUser);
+  console.log(isSuccess)
+
+
 
   return (
+
+
     <nav className="navbar navbar-light">
       <div className="container">
         <Link className="navbar-brand" to="/">
           conduit
         </Link>
+
+        <h1>
+       
+        </h1>
         <ul className="nav navbar-nav pull-xs-right">
           <li className="nav-item">
             <Link className="nav-link active" to="/">
@@ -29,14 +44,24 @@ const HeaderComponent = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={`/profile/${username}`}>
-                  {image ? (
-                    <img src={image} className="user-pic" alt="User Profile" />
-                  ) : (
-                    <span className="user-pic-placeholder">No Image</span>
-                  )}
-                  {username}
-                </Link>
+               
+              {isSuccess && (
+              
+              <Link className="nav-link" to={`/profile/${currentUser.username}`}>
+              {currentUser.image ? (
+                <img src={currentUser.image} className="user-pic" alt="User Profile" />
+              ) : (
+          
+                <span className="user-pic-placeholder">No Image</span>
+              )}
+                
+                 {
+                  currentUser.username
+                 }
+
+            </Link>
+              )}
+                
               </li>
             </>
           )}

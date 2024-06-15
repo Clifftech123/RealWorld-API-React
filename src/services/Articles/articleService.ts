@@ -1,61 +1,25 @@
 
-// src/services/articleApi.ts
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { ArticleFiltersInterface, ArticleInterface, CreateArticlePayloadInterface, UpdateArticlePayloadInterface } from '../../Interface/Article/Article.Interface';
 
-interface Article {
-  // Define the structure of an Article object
-  slug: string;
-  title: string;
-  description: string;
-  body: string;
-  tagList: string[];
-  createdAt: string;
-  updatedAt: string;
-  favorited: boolean;
-  favoritesCount: number;
-  author: {
-    username: string;
-    bio: string;
-    image: string;
-    following: boolean;
-  };
-}
-
-interface ArticleFilters {
-  tag?: string;
-  author?: string;
-  favorited?: string;
-  tagList?: string[];
-  page?: number;
-  
-}
-
-interface CreateArticlePayload {
-  article: {
-    title: string;
-    description: string;
-    body: string;
-    tagList: string[];
-  };
-}
-
-interface UpdateArticlePayload {
-  article: {
-    title?: string;
-    description?: string;
-    body?: string;
-    tagList?: string[];
-  };
-}
 
 export const articleApi = createApi({
   reducerPath: 'articleApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://api.realworld.io/api/',
+    prepareHeaders: (headers) => {
+      // Retrieve the token from localStorage
+      const token = localStorage.getItem('token');
+      // If the token exists, append it to the Authorization header
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     // Get recent articles
-    getRecentArticles: builder.query<Article[], ArticleFilters | void>({
+    getRecentArticles: builder.query<ArticleInterface[],  ArticleFiltersInterface | void>({
       query: (filters) => {
         const { tagList, author, favorited } = filters || {};
         const params = {
@@ -70,14 +34,15 @@ export const articleApi = createApi({
         };
       },
     }),
+    
 
     // Get a single article by slug
-    getArticle: builder.query<Article, string>({
-      query: (slug) => `articles/${slug}`,
+    getArticle: builder.query<ArticleInterface, string>({
+      query: (slug:string) => `articles/${slug}`,
     }),
 
     // Create a new article
-    createArticle: builder.mutation<Article, CreateArticlePayload>({
+    createArticle: builder.mutation<ArticleInterface,  CreateArticlePayloadInterface>({
       query: (payload) => ({
         url: 'articles',
         method: 'POST',
@@ -86,7 +51,7 @@ export const articleApi = createApi({
     }),
 
     // Update an existing article by slug
-    updateArticle: builder.mutation<Article, { slug: string; payload: UpdateArticlePayload }>({
+    updateArticle: builder.mutation<ArticleInterface, { slug: string; payload:  UpdateArticlePayloadInterface }>({
       query: ({ slug, payload }) => ({
         url: `articles/${slug}`,
         method: 'PUT',
@@ -94,6 +59,7 @@ export const articleApi = createApi({
       }),
     }),
 
+     //  Delete an article by slug
     deleteArticle: builder.mutation<{ success: boolean }, string>({
         query: (slug) => ({
           url: `articles/${slug}`,
@@ -103,7 +69,8 @@ export const articleApi = createApi({
       }),
       
 
-      getArticlesFeed: builder.query<Article[], { offset?: number; limit?: number }>({
+      // Get articles from users that the current user follows
+      getArticlesFeed: builder.query<ArticleInterface[], { offset?: number; limit?: number }>({
         query: ({ offset, limit } = {}) => ({
           url: 'articles/feed',
           params: { offset, limit },

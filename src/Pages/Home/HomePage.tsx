@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import LayoutComponent from "../../components/Layout";
-import { useGetRecentArticlesQuery } from "../../services/articleService";
-import { useGetTagsQuery } from "../../services/User/TageService";
+import { useGetRecentArticlesQuery } from "../../services/Articles/articleService";
+import { useGetTagsQuery } from "../../services/Tage/TageService";
 
 
 const HomePage = () => {
@@ -47,9 +47,6 @@ const HomePage = () => {
                   <li className="nav-item">
                     <a className="nav-link active" href="">Global Feed</a>
                   </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="">Your Feed</a>
-                  </li>
 
                 </ul>
               </div>
@@ -60,6 +57,9 @@ const HomePage = () => {
                   return value.map((article, articleIndex) => (
                     <div className="article-preview" key={`${key}-${articleIndex}`}>
                       <div className="article-meta">
+
+
+                        {/*  show the image of the user  */}
                         <a href={`/profile/${article.author.username}`}><img src={article.author.image} alt={article.author.username} /></a>
 
                         {/*  show the date the article created  */}

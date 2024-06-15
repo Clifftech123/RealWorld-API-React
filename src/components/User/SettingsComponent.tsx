@@ -1,6 +1,10 @@
+import { useLogoutUser } from "../hooks/useLogoutUser";
 
 
 const SettingsComponent = () => {
+
+  const logout = useLogoutUser();
+
   return (
     <div className="settings-page">
   <div className="container page">
@@ -41,7 +45,9 @@ const SettingsComponent = () => {
           </fieldset>
         </form>
         <hr />
-        <button className="btn btn-outline-danger">Or click here to logout.</button>
+        <button
+          onClick={logout}
+        className="btn btn-outline-danger">Or click here to logout.</button>
       </div>
     </div>
   </div>
