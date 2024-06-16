@@ -3,12 +3,16 @@ import RouterComponent from "./components/Router/Index"
 import 'react-toastify/dist/ReactToastify.css';
 import { useAppDispatch } from "./app/hook";
 import { useEffect } from "react";
-import { setToken } from "./Satete/UserSlice";
+import { setToken } from "./features/auth/UserSlice";
+
 
 
 
 
 function App() {
+
+
+  
 
   // Use the useAppDispatch hook to get a reference to the dispatch function
   const dispatch = useAppDispatch();
@@ -39,3 +43,4 @@ function App() {
 }
 
 export default App
+

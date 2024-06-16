@@ -1,33 +1,57 @@
+import { useParams } from "react-router-dom";
+import { useGetProfileQuery } from "../../services/Profile/ProfileService";
+import { useAppSelector } from "../../app/hook";
+import { useGetArticlesFeedQuery } from "../../services/Articles/articleService";
 
 
 const ProfileComponent = () => {
 
-  
+  let { username } = useParams();
+  const safeusername  = username  ?? '';
+   // Fetch user profile
+   const { data: userProfile } = useGetProfileQuery( safeusername);
+
+
+     // Fetch articles feed
+  const { data: articlesFeed, isError:articlesError , isLoading: isArticlesFeedLoading } = useGetArticlesFeedQuery(); 
+
+
+  // Access the current user's token from the global state.
+   const { token } = useAppSelector((state) => state.user);
+
+
   return (
     <div className="profile-page">
   <div className="user-info">
     <div className="container">
       <div className="row">
-        <div className="col-xs-12 col-md-10 offset-md-1">
-          <img src="http://i.imgur.com/Qr71crq.jpg" className="user-img" />
-          <h4>Eric Simons</h4>
+        <div className="col-xs-12  col-md-10 offset-md-1">
+          <img src={userProfile?.profile?.image} className="user-img" />
+          <h4> {userProfile?.profile.username} </h4>
           <p>
-            Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from
-            the Hunger Games
+            {
+              userProfile?.profile.bio
+            }
           </p>
           <button className="btn btn-sm btn-outline-secondary action-btn">
             <i className="ion-plus-round"></i>
-            &nbsp; Follow Eric Simons
+            &nbsp; Follow {userProfile?.profile.username}
           </button>
-          <button className="btn btn-sm btn-outline-secondary action-btn">
-            <i className="ion-gear-a"></i>
-            &nbsp; Edit Profile Settings
-          </button>
+
+        {/*  when there's no token it means user is not login do not show this button */}
+
+    {token ? (
+      <button className="btn btn-sm btn-outline-secondary action-btn">
+    <i className="ion-heart"></i>&nbsp; Favorite {userProfile?.profile.username}
+    </button>
+) : null}
         </div>
       </div>
     </div>
   </div>
 
+
+{/*  USER actives  */}
   <div className="container">
     <div className="row">
       <div className="col-xs-12 col-md-10 offset-md-1">
@@ -41,51 +65,57 @@ const ProfileComponent = () => {
             </li>
           </ul>
         </div>
+ 
+     {/*  Articles for the user   */} 
+       
+         {isArticlesFeedLoading&& <div>Loading articles...</div>}
+              {articlesError && <div>Error fetching articles</div>}
+              {articlesFeed && typeof articlesFeed === 'object' && Object.entries(articlesFeed).map(([key, value], index) => {
+                if (Array.isArray(value)) {
+                  return value.map((article, articleIndex) => (
+                    <div className="article-preview" key={`${key}-${articleIndex}`}>
+                      <div className="article-meta">
 
-        <div className="article-preview">
-          <div className="article-meta">
-            <a href="/profile/eric-simons"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
-            <div className="info">
-              <a href="/profile/eric-simons" className="author">Eric Simons</a>
-              <span className="date">January 20th</span>
-            </div>
-            <button className="btn btn-outline-primary btn-sm pull-xs-right">
-              <i className="ion-heart"></i> 29
-            </button>
-          </div>
-          <a href="/article/how-to-buil-webapps-that-scale" className="preview-link">
-            <h1>How to build webapps that scale</h1>
-            <p>This is the description for the post.</p>
-            <span>Read more...</span>
-            <ul className="tag-list">
-              <li className="tag-default tag-pill tag-outline">realworld</li>
-              <li className="tag-default tag-pill tag-outline">implementations</li>
-            </ul>
-          </a>
-        </div>
 
-        <div className="article-preview">
-          <div className="article-meta">
-            <a href="/profile/albert-pai"><img src="http://i.imgur.com/N4VcUeJ.jpg" /></a>
-            <div className="info">
-              <a href="/profile/albert-pai" className="author">Albert Pai</a>
-              <span className="date">January 20th</span>
-            </div>
-            <button className="btn btn-outline-primary btn-sm pull-xs-right">
-              <i className="ion-heart"></i> 32
-            </button>
-          </div>
-          <a href="/article/the-song-you" className="preview-link">
-            <h1>The song you won't ever stop singing. No matter how hard you try.</h1>
-            <p>This is the description for the post.</p>
-            <span>Read more...</span>
-            <ul className="tag-list">
-              <li className="tag-default tag-pill tag-outline">Music</li>
-              <li className="tag-default tag-pill tag-outline">Song</li>
-            </ul>
-          </a>
-        </div>
+                        {/*  show the image of the user  */}
+                        <a href={`/profile/${article.author.username}`}><img src={article.author.image} alt={article.author.username} /></a>
 
+                        {/*  show the date the article created  */}
+                        <div className="info">
+                          <a href={`/profile/${article.author.username}`} className="author">{article.author.username}</a>
+                          <span className="date">{article.createdAt}</span>
+                        </div>
+                        <button
+                        
+                        className="btn btn-outline-primary btn-sm pull-xs-right">
+                          <i className="ion-heart"></i> {article.favoritesCount}
+                        </button>
+                      </div>
+
+                      {/* Pon int user to the article   */}
+                      <a href={`/article/${article.slug}`} className="preview-link">
+                        <h1>{article.title}</h1>
+                        <p>{article.description}</p>
+                        <span>Read more...</span>
+
+                        {/* Display of the taList  */}
+                        <ul className="tag-list">
+                          {article.tagList.map((tag: string, tagIndex: number) => (
+                            <li key={`${key}-${articleIndex}-${tagIndex}`} className="tag-default tag-pill tag-outline">{tag}</li>
+                          ))}
+                        </ul>
+                      </a>
+                    </div>
+
+                  ));
+                } else {
+                  return <div key={key}>Invalid article value: {JSON.stringify(value)}</div>;
+                }
+              })}
+       
+
+
+       {/*  Pagination */}
         <ul className="pagination">
           <li className="page-item active">
             <a className="page-link" href="">1</a>

@@ -4,19 +4,46 @@ import { useState } from "react";
 import LayoutComponent from "../../components/Layout";
 import { useGetRecentArticlesQuery } from "../../services/Articles/articleService";
 import { useGetTagsQuery } from "../../services/Tage/TageService";
+import { useFavoriteArticleMutation, useUnfavoriteArticleMutation } from "../../services/Favorites/FavoritesServices";
+
 
 
 const HomePage = () => {
 
 
-
-  const totalPages = 20;
+  const totalPages = 10;
   // Correctly type the initial state for useState
   const [selectedTag, setSelectedTag] = useState<string | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const { data: tags, error: tagsError, isLoading: tagsLoading } = useGetTagsQuery();
-  const { data: articles, error: articlesError, isLoading: articlesLoading } = useGetRecentArticlesQuery({ tag: selectedTag, page: currentPage });
+  const { data: articles, refetch, error: articlesError, isLoading: articlesLoading } = useGetRecentArticlesQuery({ tag: selectedTag, page: currentPage });
+
+  const [favoriteArticle] = useFavoriteArticleMutation();
+  const [unfavoriteArticle] = useUnfavoriteArticleMutation();
+
+
+  //  
+
+  const handleFavoriteToggle = async (slug: string, isFavorited: boolean) => {
+    try {
+      if (isFavorited) {
+        const response = await unfavoriteArticle(slug);
+        console.log('Unfavorite response:', response);
+      } else {
+        const response = await favoriteArticle(slug);
+        console.log('Favorite response:', response);
+      }
+      refetch();
+    } catch (error) {
+      console.error("Error toggling favorite status:", error);
+      if (error instanceof Error) {
+        console.error("Detailed error:", error.message);
+      }
+    }
+  };
+
+
 
   // Explicitly type the parameter 'tag' as string
   const handleTagClick = (tag: string) => {
@@ -45,8 +72,11 @@ const HomePage = () => {
               <div className="feed-toggle">
                 <ul className="nav nav-pills outline-active">
                   <li className="nav-item">
+
                     <a className="nav-link active" href="">Global Feed</a>
                   </li>
+
+
 
                 </ul>
               </div>
@@ -67,7 +97,9 @@ const HomePage = () => {
                           <a href={`/profile/${article.author.username}`} className="author">{article.author.username}</a>
                           <span className="date">{article.createdAt}</span>
                         </div>
-                        <button className="btn btn-outline-primary btn-sm pull-xs-right">
+                        <button
+                          className="btn btn-outline-primary btn-sm pull-xs-right"
+                          onClick={() => handleFavoriteToggle(article.slug, article.isFavorited)}>
                           <i className="ion-heart"></i> {article.favoritesCount}
                         </button>
                       </div>
@@ -93,6 +125,8 @@ const HomePage = () => {
                 }
               })}
 
+
+
               <ul className="pagination">
                 <li
                   className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}
@@ -115,7 +149,7 @@ const HomePage = () => {
                   </li>
                 ))}
               </ul>
-              {/* Pagination and other components remain unchanged */}
+
             </div>
 
             <div className="col-md-3">

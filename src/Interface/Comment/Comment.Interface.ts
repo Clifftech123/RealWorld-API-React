@@ -1,3 +1,6 @@
+
+
+// Comment interface
 export interface CommentInterface {
     id: number;
     createdAt: string;
@@ -11,8 +14,11 @@ export interface CommentInterface {
     };
   }
   
+
+  // Comment response interface
   export interface CreateCommentPayloadInterface {
     comment: {
       body: string;
     };
   }
+  

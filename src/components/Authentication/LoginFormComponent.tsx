@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '../../services/User/userService';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '../../app/hook';
-import { setToken } from '../../Satete/UserSlice';
+import { setToken } from '../../features/auth/UserSlice';
 
 interface FormData {
   email: string;
@@ -12,10 +12,6 @@ interface FormData {
 
 const LoginFormComponent = () => {
  
-// LoginFormComponent: A functional component for handling user login.
-// Utilizes React hooks for state management and form handling.
-// Integrates with a Redux store and navigation via React Router.
-
 // State initialization:
 // - formData: Holds the form's input data for email and password.
 // - isLoading: Tracks the loading state of the login process.
@@ -78,14 +74,17 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               <a href="/register">Need an account?</a>
             </p>
 
+           {/*  Display an error massage */}
             {errorMessage && (
               <ul className="error-messages">
                 <li>{errorMessage}</li>
               </ul>
             )}
 
+            {/*  form for user login */}
             <form onSubmit={handleSubmit}>
               <fieldset className="form-group">
+                {/*  user email */}
                 <input
                   className="form-control form-control-lg"
                   type="text"
@@ -95,6 +94,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                   onChange={handleChange}
                 />
               </fieldset>
+
+              {/*  user password */}
               <fieldset className="form-group">
                 <input
                   className="form-control form-control-lg"
@@ -105,6 +106,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                   onChange={handleChange}
                 />
               </fieldset>
+
+              {/*  submit button */}
               <button className="btn btn-lg btn-primary pull-xs-right" type="submit" disabled={isLoading}>
                 {isLoading ? 'Loading...' : 'Sign in'}
               </button>

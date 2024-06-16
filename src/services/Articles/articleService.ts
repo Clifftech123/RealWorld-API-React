@@ -1,6 +1,6 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ArticleFiltersInterface, ArticleInterface, CreateArticlePayloadInterface, UpdateArticlePayloadInterface } from '../../Interface/Article/Article.Interface';
+import { ApiResponse, ArticleFiltersInterface, ArticleInterface, CreateArticlePayloadInterface, UpdateArticlePayloadInterface } from '../../Interface/Article/Article.Interface';
 
 
 export const articleApi = createApi({
@@ -37,7 +37,7 @@ export const articleApi = createApi({
     
 
     // Get a single article by slug
-    getArticle: builder.query<ArticleInterface, string>({
+    getArticle: builder.query< ApiResponse, string>({
       query: (slug:string) => `articles/${slug}`,
     }),
 
@@ -70,10 +70,9 @@ export const articleApi = createApi({
       
 
       // Get articles from users that the current user follows
-      getArticlesFeed: builder.query<ArticleInterface[], { offset?: number; limit?: number }>({
-        query: ({ offset, limit } = {}) => ({
+      getArticlesFeed: builder.query<ArticleInterface[], void>({
+        query: () => ({
           url: 'articles/feed',
-          params: { offset, limit },
         }),
       }),
   }),

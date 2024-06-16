@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../app/store'
-import { initialState } from '../Interface/User/User.Interface';
+import { RootState } from '../../app/store'
+import { initialState } from '../../Interface/User/User.Interface';
 
 
 export const userSlice = createSlice({

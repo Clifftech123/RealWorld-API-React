@@ -70,13 +70,16 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               <a href="/login">Have an account?</a>
             </p>
 
+            {/* Display error messages if registration fails */}
             {errorMessage && (
               <ul className="error-messages">
                 <li>{errorMessage}</li>
               </ul>
             )}
-
+              
+              {/* User registration form */}
             <form onSubmit={handleSubmit}>
+              {/* User name */}
               <fieldset className="form-group">
                 <input
                   className="form-control form-control-lg"
@@ -87,6 +90,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                   onChange={handleChange}
                 />
               </fieldset>
+
+              {/* User email */}
               <fieldset className="form-group">
                 <input
                   className="form-control form-control-lg"
@@ -97,6 +102,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                   onChange={handleChange}
                 />
               </fieldset>
+
+              {/*  User password */}
               <fieldset className="form-group">
                 <input
                   className="form-control form-control-lg"
@@ -107,6 +114,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                   onChange={handleChange}
                 />
               </fieldset>
+
+              {/* Sing up user button */}
               <button className="btn btn-lg btn-primary pull-xs-right" type="submit" disabled={isLoading}>
                 {isLoading ? 'Loading...' : 'Sign up'}
               </button>

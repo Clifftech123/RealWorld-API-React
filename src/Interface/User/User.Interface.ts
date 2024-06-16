@@ -35,7 +35,20 @@
   
 
 
+  // User response interface
+  export interface UserResponse {
+    user: {
+      id: number;
+      email: string;
+      username: string;
+      bio: string | null;
+      image: string;
+      token: string;
+    };
+  }
 
+
+   // User service interface
 export interface UserServiceInterface {
     [x: string]: any;
     username: string;

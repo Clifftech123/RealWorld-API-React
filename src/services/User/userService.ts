@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { UserServiceInterface } from '../../Interface/User/User.Interface';
+import { UserResponse, UserServiceInterface } from '../../Interface/User/User.Interface';
 
 
 
@@ -38,7 +38,7 @@ export const userApi = createApi({
     }),
 
     // Define the getCurrentUser endpoint to get the current user's information.
-    getCurrentUser: builder.query<UserServiceInterface, void>({
+    getCurrentUser: builder.query< UserResponse, void>({
       query: () => 'user',
     }),
 

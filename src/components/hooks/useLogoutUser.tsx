@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { logoutUser } from '../../Satete/UserSlice';
+import { logoutUser } from '../../features/auth/UserSlice';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 

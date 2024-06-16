@@ -10,7 +10,6 @@ import CreateEditArticlePage from '../../Pages/Article/CreateEditArticlePage'
 
 
 
-// Concise comment for RouterComponent
 // RouterComponent: Manages app routing with react-router-dom, mapping URLs to components.
 
 const RouterComponent = () => {
