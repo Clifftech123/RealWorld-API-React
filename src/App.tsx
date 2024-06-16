@@ -11,9 +11,6 @@ import { setToken } from "./features/auth/UserSlice";
 
 function App() {
 
-
-  
-
   // Use the useAppDispatch hook to get a reference to the dispatch function
   const dispatch = useAppDispatch();
 

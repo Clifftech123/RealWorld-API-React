@@ -10,7 +10,6 @@ import { useFavoriteArticleMutation, useUnfavoriteArticleMutation } from "../../
 
 const HomePage = () => {
 
-
   const totalPages = 10;
   // Correctly type the initial state for useState
   const [selectedTag, setSelectedTag] = useState<string | undefined>(undefined);
@@ -19,12 +18,15 @@ const HomePage = () => {
   const { data: tags, error: tagsError, isLoading: tagsLoading } = useGetTagsQuery();
   const { data: articles, refetch, error: articlesError, isLoading: articlesLoading } = useGetRecentArticlesQuery({ tag: selectedTag, page: currentPage });
 
+
+
+  // use the favorite and unfavorite mutation
   const [favoriteArticle] = useFavoriteArticleMutation();
   const [unfavoriteArticle] = useUnfavoriteArticleMutation();
 
 
-  //  
 
+  // Handle favorite toggle
   const handleFavoriteToggle = async (slug: string, isFavorited: boolean) => {
     try {
       if (isFavorited) {
@@ -75,9 +77,6 @@ const HomePage = () => {
 
                     <a className="nav-link active" href="">Global Feed</a>
                   </li>
-
-
-
                 </ul>
               </div>
               {articlesLoading && <div>Loading articles...</div>}

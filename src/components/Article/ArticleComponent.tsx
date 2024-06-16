@@ -237,8 +237,7 @@ const ArticleComponent = () => {
 
                 
                  {/* Display comments related to the article. Comments are visible even if the user is not logged in. */}
-              
-
+          
                 {
                   !token && (
                   <>
@@ -272,7 +271,10 @@ const ArticleComponent = () => {
                   })
                 }
 
-                {/*  Deleted comment */}
+                {/*  Deleted comment
+                
+                  NOW ENDPOINT FOR THIS 
+                */}
 
                 <section>
                   <div className="card">

@@ -11,8 +11,6 @@ interface ApiError {
 }
 
 
-
-
 const CreateEditArticleComponent = () => {
   const [createArticle, { isLoading }] = useCreateArticleMutation();
   const [title, setTitle] = useState('');

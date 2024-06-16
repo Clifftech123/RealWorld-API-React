@@ -32,8 +32,6 @@
   
     
   }
-  
-
 
   // User response interface
   export interface UserResponse {
@@ -46,7 +44,6 @@
       token: string;
     };
   }
-
 
    // User service interface
 export interface UserServiceInterface {
