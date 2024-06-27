@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useUpdateUserMutation } from "../../services/User/userService";
+import { useUpdateUserMutation } from "../../services/UserServices/userService";
 import { useLogoutUser } from "../hooks/useLogoutUser";
 import { toast } from "react-toastify";
 

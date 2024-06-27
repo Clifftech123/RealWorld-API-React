@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useCreateArticleMutation } from "../../services/Articles/articleService";
+import { useCreateArticleMutation } from "../../services/ArticlesServices/articleService";
 import { toast } from "react-toastify"; // Ensure react-toastify is installed in your project
 
 // Define the expected error structure
@@ -50,67 +50,67 @@ const CreateEditArticleComponent = () => {
 
   return (
     <div className="editor-page">
-  <div className="container page">
-    <div className="row">
-      <div className="col-md-10 offset-md-1 col-xs-12">
-        <ul className="error-messages ">
-          <li>{errorMessage}</li>
-        </ul>
+      <div className="container page">
+        <div className="row">
+          <div className="col-md-10 offset-md-1 col-xs-12">
+            <ul className="error-messages ">
+              <li>{errorMessage}</li>
+            </ul>
 
-        <form
-        onSubmit={handleSubmit}
-        >
-          <fieldset>
+            <form
+              onSubmit={handleSubmit}
+            >
+              <fieldset>
 
-            {/*  Article Title  */}
-            <fieldset className="form-group">
-              <input type="text" className="form-control form-control-lg"
-              value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              placeholder="Article Title" />
-            </fieldset>
-
-           
-            {/*  Article Description  */}
-            <fieldset className="form-group">
-              <input type="text" className="form-control" 
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="What's this article about?" />
-            </fieldset>
+                {/*  Article Title  */}
+                <fieldset className="form-group">
+                  <input type="text" className="form-control form-control-lg"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Article Title" />
+                </fieldset>
 
 
-            {/*  Article Body  */}  
-            <fieldset className="form-group">
-              <textarea
-                className="form-control"
-                rows={8}
-                value={body}
-                onChange={(e) => setBody(e.target.value)}
-                placeholder="Write your article (in markdown)"
-              ></textarea>
+                {/*  Article Description  */}
+                <fieldset className="form-group">
+                  <input type="text" className="form-control"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="What's this article about?" />
+                </fieldset>
 
-            </fieldset>
 
-            {/*  Article Tags  */}
-            <fieldset className="form-group">
-              <input type="text" className="form-control"
-             onChange={(e) => setTagList(e.target.value.split(','))}
-             value={tagList.join(',')}
-              placeholder="Enter tags" />
-              <div className="tag-list">
-                <span className="tag-default tag-pill"> <i className="ion-close-round"></i> tag </span>
-              </div>
-            </fieldset>
-            <button className="btn btn-lg pull-xs-right btn-primary" type="submit" disabled={isLoading}>
+                {/*  Article Body  */}
+                <fieldset className="form-group">
+                  <textarea
+                    className="form-control"
+                    rows={8}
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
+                    placeholder="Write your article (in markdown)"
+                  ></textarea>
+
+                </fieldset>
+
+                {/*  Article Tags  */}
+                <fieldset className="form-group">
+                  <input type="text" className="form-control"
+                    onChange={(e) => setTagList(e.target.value.split(','))}
+                    value={tagList.join(',')}
+                    placeholder="Enter tags" />
+                  <div className="tag-list">
+                    <span className="tag-default tag-pill"> <i className="ion-close-round"></i> tag </span>
+                  </div>
+                </fieldset>
+                <button className="btn btn-lg pull-xs-right btn-primary" type="submit" disabled={isLoading}>
                   {isLoading ? 'Publishing...' : 'Publish Article'}
                 </button>
-          </fieldset>
-        </form>
+              </fieldset>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
   )
 }
 

@@ -24,6 +24,28 @@ export interface ArticleInterface {
 };
 
 
+
+
+export interface ArticleInterface2 {
+  slug: string;
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+  createdAt: string;
+  updatedAt: string;
+  favorited: boolean;
+  favoritesCount: number;
+  author: Author;
+};
+
+
+
+// Articles response interface
+export interface ArticlesResponseInterface {
+  articles: ArticleInterface[];
+}
+
 //  Article response interface
 export interface ApiResponse {
   article: ArticleInterface;
@@ -32,11 +54,14 @@ export interface ArticleFiltersInterface {
   tag?: string;
   author?: string;
   favorited?: string;
-  tagList?: string[];
-  page?: number;
+  offset?: number;
+  limit?: number;
 }
 
-
+export interface ArticlesWithCountInterface {
+  articles: ArticleInterface[];
+  articlesCount: number;
+}
 
 // Create article payload interface
 export interface CreateArticlePayloadInterface {

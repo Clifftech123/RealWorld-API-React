@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useGetProfileQuery } from "../../services/Profile/ProfileService";
+import { useGetProfileQuery } from "../../services/ProfileServices/ProfileService";
 import { useAppSelector } from "../../app/hook";
-import { useGetArticlesFeedQuery } from "../../services/Articles/articleService";
+import { useGetArticlesFeedQuery } from "../../services/ArticlesServices/articleService";
+import { ArticlesFeedComponent } from "../Article/ArticlesFeedComponent";
 
 
 const ProfileComponent = () => {
@@ -12,8 +13,8 @@ const ProfileComponent = () => {
    const { data: userProfile } = useGetProfileQuery( safeusername);
 
 
-     // Fetch articles feed
-  const { data: articlesFeed, isError:articlesError , isLoading: isArticlesFeedLoading } = useGetArticlesFeedQuery(); 
+  //    // Fetch articles feed
+  // const { data: articlesFeed, isError:articlesError , isLoading: isArticlesFeedLoading } = useGetArticlesFeedQuery(); 
 
 
   // Access the current user's token from the global state.
@@ -67,63 +68,8 @@ const ProfileComponent = () => {
         </div>
  
      {/*  Articles for the user   */} 
-       
-         {isArticlesFeedLoading&& <div>Loading articles...</div>}
-              {articlesError && <div>Error fetching articles</div>}
-              {articlesFeed && typeof articlesFeed === 'object' && Object.entries(articlesFeed).map(([key, value], index) => {
-                if (Array.isArray(value)) {
-                  return value.map((article, articleIndex) => (
-                    <div className="article-preview" key={`${key}-${articleIndex}`}>
-                      <div className="article-meta">
-
-
-                        {/*  show the image of the user  */}
-                        <a href={`/profile/${article.author.username}`}><img src={article.author.image} alt={article.author.username} /></a>
-
-                        {/*  show the date the article created  */}
-                        <div className="info">
-                          <a href={`/profile/${article.author.username}`} className="author">{article.author.username}</a>
-                          <span className="date">{article.createdAt}</span>
-                        </div>
-                        <button
-                        
-                        className="btn btn-outline-primary btn-sm pull-xs-right">
-                          <i className="ion-heart"></i> {article.favoritesCount}
-                        </button>
-                      </div>
-
-                      {/* Pon int user to the article   */}
-                      <a href={`/article/${article.slug}`} className="preview-link">
-                        <h1>{article.title}</h1>
-                        <p>{article.description}</p>
-                        <span>Read more...</span>
-
-                        {/* Display of the taList  */}
-                        <ul className="tag-list">
-                          {article.tagList.map((tag: string, tagIndex: number) => (
-                            <li key={`${key}-${articleIndex}-${tagIndex}`} className="tag-default tag-pill tag-outline">{tag}</li>
-                          ))}
-                        </ul>
-                      </a>
-                    </div>
-
-                  ));
-                } else {
-                  return <div key={key}>Invalid article value: {JSON.stringify(value)}</div>;
-                }
-              })}
-       
-
-
-       {/*  Pagination */}
-        <ul className="pagination">
-          <li className="page-item active">
-            <a className="page-link" href="">1</a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="">2</a>
-          </li>
-        </ul>
+        
+          <ArticlesFeedComponent/>
       </div>
     </div>
   </div>

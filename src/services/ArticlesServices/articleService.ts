@@ -1,6 +1,6 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ApiResponse, ArticleFiltersInterface, ArticleInterface, CreateArticlePayloadInterface, UpdateArticlePayloadInterface } from '../../Interface/Article/Article.Interface';
+import { ApiResponse, ArticleFiltersInterface, ArticleInterface, ArticlesResponseInterface, ArticlesWithCountInterface, CreateArticlePayloadInterface, UpdateArticlePayloadInterface } from '../../Interface/Article/Article.Interface';
 
 
 export const articleApi = createApi({
@@ -19,14 +19,17 @@ export const articleApi = createApi({
   }),
   endpoints: (builder) => ({
     // Get recent articles
-    getRecentArticles: builder.query<ArticleInterface[],  ArticleFiltersInterface | void>({
+   
+    getRecentArticles: builder.query<ArticlesResponseInterface, ArticleFiltersInterface>({
+    
       query: (filters) => {
-        const { tagList, author, favorited } = filters || {};
+        const { tag, author, favorited, offset, limit } = filters || {};
         const params = {
-          tagList,
+          tag,
           author,
           favorited,
-          
+          offset,
+          limit,
         };
         return {
           url: 'articles',
@@ -34,7 +37,6 @@ export const articleApi = createApi({
         };
       },
     }),
-    
 
     // Get a single article by slug
     getArticle: builder.query< ApiResponse, string>({
@@ -70,9 +72,13 @@ export const articleApi = createApi({
       
 
       // Get articles from users that the current user follows
-      getArticlesFeed: builder.query<ArticleInterface[], void>({
-        query: () => ({
+      getArticlesFeed: builder.query< ArticlesWithCountInterface, { offset?: number; limit?: number }>({
+        query: ({ offset, limit } = {}) => ({
           url: 'articles/feed',
+          params: {
+            offset,
+            limit,
+          },
         }),
       }),
   }),

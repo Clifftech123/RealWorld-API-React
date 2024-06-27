@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
-import { useFavoriteArticleMutation, useUnfavoriteArticleMutation } from '../../services/Favorites/FavoritesServices';
+import { useFavoriteArticleMutation, useUnfavoriteArticleMutation } from '../../services/FavoritesAService/FavoritesServices';
 
-const useFavorite = (initialArticle) => {
+const useFavorite = (initialArticle:any) => {
   const [article, setArticle] = useState(initialArticle);
   const [favoriteArticle] = useFavoriteArticleMutation();
   const [unfavoriteArticle] = useUnfavoriteArticleMutation();

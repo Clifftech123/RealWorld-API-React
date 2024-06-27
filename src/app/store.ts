@@ -2,12 +2,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query/react';
 import userReducer from '../features/auth/UserSlice'; 
-import { userApi } from '../services/User/userService';
-import { tagsApi } from '../services/Tage/TageService'; 
-import { articleApi } from '../services/Articles/articleService';
-import { profileApi } from '../services/Profile/ProfileService';
-import { commentApi } from '../services/Comments/CommeService';
-import { favoritesApi } from '../services/Favorites/FavoritesServices';
+import { userApi } from '../services/UserServices/userService';
+import { tagsApi } from '../services/TageServices/TageService'; 
+import { articleApi } from '../services/ArticlesServices/articleService';
+import { profileApi } from '../services/ProfileServices/ProfileService';
+import { commentApi } from '../services/CommentsServices/CommeService';
+import { favoritesApi } from '../services/FavoritesAService/FavoritesServices';
 
 
 // Configuring the Redux store with reducers and middleware

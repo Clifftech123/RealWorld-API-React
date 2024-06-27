@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../app/hook';
-import { useGetCurrentUserQuery } from '../../services/User/userService';
+import { useGetCurrentUserQuery } from '../../services/UserServices/userService';
 
 const HeaderComponent = () => {
 

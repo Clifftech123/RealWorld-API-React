@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLoginUserMutation } from '../../services/User/userService';
+import { useLoginUserMutation } from '../../services/UserServices/userService';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '../../app/hook';
 import { setToken } from '../../features/auth/UserSlice';
@@ -11,58 +11,58 @@ interface FormData {
 }
 
 const LoginFormComponent = () => {
- 
-// State initialization:
-// - formData: Holds the form's input data for email and password.
-// - isLoading: Tracks the loading state of the login process.
-// - errorMessage: Stores any error messages to display to the user.
-const [formData, setFormData] = useState<FormData>({
-  email: '',
-  password: '',
-});
-const [loginUser, { isLoading }] = useLoginUserMutation();
-const [errorMessage, setErrorMessage] = useState('');
 
-// Hooks for dispatching actions to the Redux store and navigating programmatically.
-const dispatch = useAppDispatch();
-const navigate = useNavigate();
+  // State initialization:
+  // - formData: Holds the form's input data for email and password.
+  // - isLoading: Tracks the loading state of the login process.
+  // - errorMessage: Stores any error messages to display to the user.
+  const [formData, setFormData] = useState<FormData>({
+    email: '',
+    password: '',
+  });
+  const [loginUser, { isLoading }] = useLoginUserMutation();
+  const [errorMessage, setErrorMessage] = useState('');
 
-// handleChange: Updates formData state with current input values.
-// Ensures form inputs are controlled components.
-const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setFormData({ ...formData, [e.target.name]: e.target.value });
-};
+  // Hooks for dispatching actions to the Redux store and navigating programmatically.
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-// handleSubmit: Asynchronously handles form submission.
-// - Prevents default form submission behavior.
-// - Attempts to log in the user with provided credentials.
-// - On success: Stores the user token, updates Redux store, shows success message, and navigates to the homepage.
-// - On failure: Sets an appropriate error message based on the error received.
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  try {
-    const response = await loginUser({ ...formData }).unwrap();
-    const user = response.user;
-    if (user?.token) {
-      // Persist user token for session management.
-      localStorage.setItem('token', user.token); 
-      // Update global state with the user token.
-      dispatch(setToken(user.token)); 
-      toast.success('Login successful'); 
-      navigate('/'); 
-    } else {
-      setErrorMessage('Invalid token received'); 
+  // handleChange: Updates formData state with current input values.
+  // Ensures form inputs are controlled components.
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // handleSubmit: Asynchronously handles form submission.
+  // - Prevents default form submission behavior.
+  // - Attempts to log in the user with provided credentials.
+  // - On success: Stores the user token, updates Redux store, shows success message, and navigates to the homepage.
+  // - On failure: Sets an appropriate error message based on the error received.
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await loginUser({ ...formData }).unwrap();
+      const user = response.user;
+      if (user?.token) {
+        // Persist user token for session management.
+        localStorage.setItem('token', user.token);
+        // Update global state with the user token.
+        dispatch(setToken(user.token));
+        toast.success('Login successful');
+        navigate('/');
+      } else {
+        setErrorMessage('Invalid token received');
+      }
+    } catch (err: any) {
+      // Set an appropriate error message based on the server response or a default message.
+      if (err.data?.errors) {
+        setErrorMessage(err.data.errors.email || 'Invalid email or password');
+      } else {
+        setErrorMessage('An error occurred');
+      }
     }
-  } catch (err: any) {
-    // Set an appropriate error message based on the server response or a default message.
-    if (err.data?.errors) {
-      setErrorMessage(err.data.errors.email || 'Invalid email or password');
-    } else {
-      setErrorMessage('An error occurred');
-    }
-  }
-};
-  
+  };
+
 
   return (
     <div className="auth-page">
@@ -74,7 +74,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               <a href="/register">Need an account?</a>
             </p>
 
-           {/*  Display an error massage */}
+            {/*  Display an error massage */}
             {errorMessage && (
               <ul className="error-messages">
                 <li>{errorMessage}</li>

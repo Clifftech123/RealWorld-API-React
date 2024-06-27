@@ -6,6 +6,7 @@ import LoginPage from '../../Pages/Login/LoginPage'
 import SingUpPage from '../../Pages/Signup/SingupPage'
 import SettingsPage from '../../Pages/Settings/SettingsPage'
 import CreateEditArticlePage from '../../Pages/Article/CreateEditArticlePage'
+import { ArticlesFeedComponent } from '../Article/ArticlesFeedComponent'
 
 
 
@@ -15,7 +16,9 @@ import CreateEditArticlePage from '../../Pages/Article/CreateEditArticlePage'
 const RouterComponent = () => {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<HomePage />}>
+        <Route path="your-feed" element={<ArticlesFeedComponent />} />
+      </Route>
       <Route path="/article/:slug" element={<ArticlePage />} />
       <Route path="/editor" element={<CreateEditArticlePage />} />
       <Route path="/profile/:username" element={<UserProfilePage />} />

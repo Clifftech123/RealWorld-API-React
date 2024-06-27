@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useGetArticleQuery } from "../../services/Articles/articleService";
+import { useGetArticleQuery } from "../../services/ArticlesServices/articleService";
 import { useAppSelector } from "../../app/hook";
 import { useState } from "react";
-import { useCreateCommentMutation, useGetCommentsQuery } from "../../services/Comments/CommeService";
+import { useCreateCommentMutation, useGetCommentsQuery } from "../../services/CommentsServices/CommeService";
 import { toast } from "react-toastify";
 
 
@@ -72,7 +72,7 @@ const ArticleComponent = () => {
 
   return (
     // Render the article content if available.
-    <div>
+    <div >
       {isLoading && <div>Loading...</div>}
       {error && <div>Error loading article</div>}
       {!isLoading && !error && article && (
@@ -80,7 +80,7 @@ const ArticleComponent = () => {
         <div className="article-page">
           <div className="banner">
             <div className="container">
-              <h1>{article.article.title}</h1>
+              <h1>{}</h1>
 
               {/*  Article Meta */}
               <div className="article-meta">

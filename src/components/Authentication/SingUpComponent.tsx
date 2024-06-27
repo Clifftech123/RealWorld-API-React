@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useRegisterUserMutation } from '../../services/User/userService';
+import { useRegisterUserMutation } from '../../services/UserServices/userService';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
