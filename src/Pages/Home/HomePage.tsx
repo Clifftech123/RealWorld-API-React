@@ -3,7 +3,6 @@ import LayoutComponent from "../../components/Layout";
 import { useGetRecentArticlesQuery } from "../../services/ArticlesServices/articleService";
 import { useGetTagsQuery } from "../../services/TageServices/TageService";
 import { useFavoriteArticleMutation, useUnfavoriteArticleMutation } from "../../services/FavoritesAService/FavoritesServices";
-import { ArticlesFeedComponent } from "../../components/Article/ArticlesFeedComponent";
 import { NavLink, Outlet, useMatch } from "react-router-dom";
 
 const HomePage = () => {
@@ -17,14 +16,15 @@ const HomePage = () => {
   // Calculate offset based on currentPage and limit
   const offset = (currentPage - 1) * limit;
 
-
-  // 
+ 
+  // Fetch articles based on the selected tag and the current page
   const { data: articlesResponse, error: articlesError, isLoading: articlesLoading, refetch } = useGetRecentArticlesQuery({
     tag: selectedTag,
     offset,
     limit,
   });
 
+  // Favorite article mutation
   const [favoriteArticle] = useFavoriteArticleMutation();
   const [unfavoriteArticle] = useUnfavoriteArticleMutation();
 

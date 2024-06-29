@@ -1,6 +1,6 @@
 // src/services/commentApi.ts
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { CommentInterface, CreateCommentPayloadInterface } from '../../Interface/Comment/Comment.Interface';
+import { CommentInterface,  CommentsArrayInterface,  CreateCommentPayloadInterface } from '../../Interface/Comment/Comment.Interface';
 
 
 
@@ -18,7 +18,7 @@ export const commentApi = createApi({
   }),
   endpoints: (builder) => ({
     // Get comments for an article
-    getComments: builder.query<CommentInterface[], string>({
+    getComments: builder.query<CommentsArrayInterface,string >({
       query: (slug) => `articles/${slug}/comments`,
     }),
 

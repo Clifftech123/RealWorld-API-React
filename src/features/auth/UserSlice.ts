@@ -10,24 +10,32 @@ export const userSlice = createSlice({
   // Reducers
   reducers: {
     // Set current user
-    setCurrentUser:   (
+    setCurrentUser: (
       state,
-      action: PayloadAction<{ username: string; email: string; token: string; bio?: string; image?: string }>,
+      action: PayloadAction<{ username: string; email: string; token: string; bio: string; image: string }>
     ) => {
-      localStorage.setItem( 'user', 
-      JSON.stringify({
+      // Clear previous user state
+      state.username = null;
+      state.email = null;
+      state.token = null;
+      state.bio = null;
+      state.image = null;
+    
+      // Set new user state
+      localStorage.setItem('user', JSON.stringify({
         username: action.payload.username,
         email: action.payload.email,
         token: action.payload.token,
         bio: action.payload.bio,
         image: action.payload.image,
-      })
-      )
-      state.username = action.payload.username
-      state.email = action.payload.email
-      state.token = action.payload.token
+      }));
+    
+      state.username = action.payload.username;
+      state.email = action.payload.email;
+      state.token = action.payload.token;
+      state.bio = action.payload.bio;
+      state.image = action.payload.image;
     },
-
     // Update user
     updateUser: (
       state,
@@ -47,13 +55,17 @@ export const userSlice = createSlice({
 
 
     // Logout user
-    logoutUser: (state) => {
-      state.username = null
-      state.email = null
-      state.token = null
-      state.bio = null
-      state.image = null
-    },
+logoutUser: (state) => {
+  // Clear user state
+  state.username = null;
+  state.email = null;
+  state.token = null;
+  state.bio = null;
+  state.image = null;
+
+  // Remove token from localStorage
+  localStorage.removeItem('token');
+},
   },
 })
 

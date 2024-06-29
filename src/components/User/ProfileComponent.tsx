@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useGetProfileQuery } from "../../services/ProfileServices/ProfileService";
 import { useAppSelector } from "../../app/hook";
-import { useGetArticlesFeedQuery } from "../../services/ArticlesServices/articleService";
 import { ArticlesFeedComponent } from "../Article/ArticlesFeedComponent";
 
 

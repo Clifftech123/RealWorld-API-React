@@ -29,7 +29,9 @@ const ArticleComponent = () => {
 
 
   // Fetch comments for the article using the safeSlug.
-  const { data: comments, isLoading: commentsLoading, error: commentsError } = useGetCommentsQuery(safeSlug);
+  const { data: commentsData } = useGetCommentsQuery(safeSlug);
+
+
 
 
   // Access the current user's token from the global state.
@@ -70,6 +72,7 @@ const ArticleComponent = () => {
 
 
 
+
   return (
     // Render the article content if available.
     <div >
@@ -80,7 +83,7 @@ const ArticleComponent = () => {
         <div className="article-page">
           <div className="banner">
             <div className="container">
-              <h1>{}</h1>
+              <h1>{ }</h1>
 
               {/*  Article Meta */}
               <div className="article-meta">
@@ -152,7 +155,7 @@ const ArticleComponent = () => {
             <div className="article-actions">
               <div className="article-meta">
 
-                 {/* Display the user's profile image */}
+                {/* Display the user's profile image */}
                 <a href="profile.html"><img src={
                   article.article.author.image
 
@@ -165,7 +168,7 @@ const ArticleComponent = () => {
                     {article.article.author.username}
                   </a>
 
-                 {/* Display the article's creation date */}
+                  {/* Display the article's creation date */}
                   <span className="date">
                     {article.article.createdAt}
                   </span>
@@ -173,25 +176,25 @@ const ArticleComponent = () => {
 
                 <button className="btn btn-sm btn-outline-secondary">
                   <i className="ion-plus-round"></i>
-                  &nbsp; Follow {article.article.author.username} <span className="counter"> 
-                    {article.article.author.following }
+                  &nbsp; Follow {article.article.author.username} <span className="counter">
+                    {article.article.author.following}
                   </span>
                 </button>
                 &nbsp;
                 <button className="btn btn-sm btn-outline-primary">
                   <i className="ion-heart"></i>
                   &nbsp;
-                   {
+                  {
                     article.article.favorited ? 'Unfavorite Post' : 'Favorite Post'
-                   }
-                   <span className="counter">
+                  }
+                  <span className="counter">
                     {article.article.favoritesCount}
                   </span>
                 </button>
 
 
 
-               {/* Display edit and delete buttons only for authenticated users */}
+                {/* Display edit and delete buttons only for authenticated users */}
 
                 {
                   token ? (
@@ -231,56 +234,48 @@ const ArticleComponent = () => {
                         Post Comment
                       </button>
                     </div>
+
                   </form>
                 </section>
 
-
-                
-                 {/* Display comments related to the article. Comments are visible even if the user is not logged in. */}
-          
                 {
-                  !token && (
-                  <>
-                    {commentsLoading && <div>Loading comments...</div>}
-                {commentsError && <div>Error fetching comments</div>}
-                {comments && typeof comments === 'object' &&
-                  Object.entries(comments).map(([key, value]) => {
-                    const renderComment = (comment: any, index: number) => (
-                      <section key={`${key}-${index}`}>
-                        <div className="card">
+                  token ? (
+                    <section>
+                      <h5>Comments</h5>
+                      {commentsData?.comments && commentsData?.comments?.map((comment) => (
+                        <div key={comment.id} className="card">
                           <div className="card-block">
                             <p className="card-text">{comment.body}</p>
                           </div>
                           <div className="card-footer">
                             <a href={`/profile/${comment.author.username}`} className="comment-author">
-                              <img src={comment.author.image} className="comment-author-img" />
+                              <img src={comment.author.image} alt={comment.author.username} className="comment-author-img" />
                             </a>
                             &nbsp;
-                            <a href={`/profile/${comment.author.username}`} className="comment-author">{comment.author.username}</a>
-                            <span className="date-posted">{new Date(comment.createdAt).toDateString()}</span>
+                            <a href={`/profile/${comment.author.username}`}>
+                              {comment.author.username}
+                            </a>
+                            <span className="date-posted">
+                              {comment.createdAt}
+                            </span>
                           </div>
                         </div>
-                      </section>
-                    );
-
-                    if (Array.isArray(value)) {
-                      return value.map(renderComment);
-                    } else {
-                      return <div key={key}>Invalid comment value: {JSON.stringify(value)}</div>;
-                    }
-                  })
+                      ))}
+                    </section>
+                  ) : (
+                    <p>
+                      <a href="/login">Sign in</a> or <a href="/register">sign up</a> to post comments on this article.
+                    </p>
+                  )
                 }
 
-                {/*  Deleted comment
-                
-                  NOW ENDPOINT FOR THIS 
-                */}
+               
 
                 <section>
                   <div className="card">
                     <div className="card-block">
                       <p className="card-text">
-                        With supporting text below as a natural lead-in to additional content.
+
                       </p>
                     </div>
                     <div className="card-footer">
@@ -296,16 +291,15 @@ const ArticleComponent = () => {
                     </div>
                   </div>
                 </section>
-                  </>
-                  )
-                }
+
 
               </div>
             </div>
           </div>
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 }
 
