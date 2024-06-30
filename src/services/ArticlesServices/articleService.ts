@@ -3,6 +3,19 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiResponse, ArticleFiltersInterface, ArticleInterface, ArticlesResponseInterface, ArticlesWithCountInterface, CreateArticlePayloadInterface, UpdateArticlePayloadInterface } from '../../Interface/Article/Article.Interface';
 
 
+/**
+ * The `articleApi` is a Redux Toolkit Query API that provides a set of hooks for interacting with a RESTful API for managing articles.
+ *
+ * The API includes the following endpoints:
+ * - `getRecentArticles`: Retrieves a list of recent articles based on the provided filters.
+ * - `getArticle`: Retrieves a single article by its slug.
+ * - `createArticle`: Creates a new article with the provided payload.
+ * - `updateArticle`: Updates an existing article by its slug with the provided payload.
+ * - `deleteArticle`: Deletes an article by its slug.
+ * - `getArticlesFeed`: Retrieves a list of articles from the users that the current user follows.
+ *
+ * The API uses the `fetchBaseQuery` from `@reduxjs/toolkit/query/react` to make the API requests, and it automatically handles the authorization by retrieving the token from localStorage and appending it to the `Authorization` header.
+ */
 export const articleApi = createApi({
   reducerPath: 'articleApi',
   baseQuery: fetchBaseQuery({

@@ -33,24 +33,29 @@ const LoginFormComponent = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // handleSubmit: Asynchronously handles form submission.
-  // - Prevents default form submission behavior.
-  // - Attempts to log in the user with provided credentials.
-  // - On success: Stores the user token, updates Redux store, shows success message, and navigates to the homepage.
-  // - On failure: Sets an appropriate error message based on the error received.
+  /**
+   * Handles the submission of the login form.
+   *
+   * @param e - The form submission event.
+   * @returns Promise<void> - Resolves when the login process is complete.
+   */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    // Prevent the default form submission behavior.
     e.preventDefault();
+  
     try {
+      // Attempt to log in the user using the provided email and password.
       const response = await loginUser({ ...formData }).unwrap();
       const user = response.user;
+  
+      // If a valid token is received, persist it in local storage and update the global state.
       if (user?.token) {
-        // Persist user token for session management.
         localStorage.setItem('token', user.token);
-        // Update global state with the user token.
         dispatch(setToken(user.token));
         toast.success('Login successful');
         navigate('/');
       } else {
+        // If an invalid token is received, set an error message.
         setErrorMessage('Invalid token received');
       }
     } catch (err: any) {
@@ -63,6 +68,7 @@ const LoginFormComponent = () => {
     }
   };
 
+  
 
   return (
     <div className="auth-page">

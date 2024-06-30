@@ -12,17 +12,28 @@ export const ArticlesFeedComponent = () => {
     const offset = (currentPage - 1) * limit;
 
 
-    //    initizal the feed RTK
+
+    /**
+     * Fetches the articles feed data from the API, with the specified offset and limit parameters.
+     * The fetched data is stored in the `ArticlesWithCountInterface` variable, and any errors or loading state are stored in `articlesError` and `articlesLoading` respectively.
+     * The `refetch` function can be used to manually trigger a re-fetch of the articles feed.
+     *
+     * @param {number} offset - The offset to use when fetching the articles feed.
+     * @param {number} limit - The limit to use when fetching the articles feed.
+     * @returns {Object} - An object containing the fetched articles data, any errors, and the loading state.
+     */
     const { data: ArticlesWithCountInterface, error: articlesError, isLoading: articlesLoading, refetch } = useGetArticlesFeedQuery({
         offset,
         limit,
     });
 
-
-    
     const [favoriteArticle] = useFavoriteArticleMutation();
     const [unfavoriteArticle] = useUnfavoriteArticleMutation();
 
+    /**
+     * Refetches the articles feed when the current page or selected tag changes.
+     * This ensures the feed is updated to reflect the new page or tag selection.
+     */
     useEffect(() => {
         refetch(); // Manually trigger a re-fetch when currentPage or selectedTag changes
     }, [currentPage, refetch]);
@@ -39,6 +50,7 @@ export const ArticlesFeedComponent = () => {
             console.error("Error toggling favorite status:", error);
         }
     };
+
 
 
     return (

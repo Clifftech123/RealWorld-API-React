@@ -2,8 +2,11 @@ import LoginFormComponent from "../../components/Authentication/LoginFormCompone
 import LayoutComponent from "../../components/Layout"
 
 
-// LoginPage: Wraps LoginFormComponent in LayoutComponent for consistent app layout.
 
+
+/**
+ * Renders the login page, which includes the login form component within a layout component.
+ */
 const LoginPage = () => {
   return (
     <LayoutComponent>

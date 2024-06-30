@@ -1,9 +1,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { UserResponse, UserServiceInterface } from '../../Interface/User/User.Interface';
 
-
-
-// userApi: Defines API service for user-related operations using Redux Toolkit Query.
+/**
+ * Defines an API service for user-related operations using Redux Toolkit Query.
+ * 
+ * The `userApi` object provides the following endpoints:
+ * - `loginUser`: Logs in a user with the provided email and password.
+ * - `registerUser`: Registers a new user with the provided username, email, and password.
+ * - `getCurrentUser`: Retrieves the current user's information.
+ * - `updateUser`: Updates the current user's information, such as email, password, username, bio, and profile image.
+ * 
+ * The API service uses the `fetchBaseQuery` function from Redux Toolkit Query to make HTTP requests to the specified base URL. It also includes a `prepareHeaders` function to add the authorization token to the request headers if it is available in the local storage.
+ * 
+ * The `tagTypes` property is set to `['User']` to specify the type of data returned by the endpoints.
+ */
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({

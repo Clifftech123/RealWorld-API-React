@@ -4,6 +4,23 @@ import { CommentInterface,  CommentsArrayInterface,  CreateCommentPayloadInterfa
 
 
 
+/**
+ * Provides a set of API endpoints for managing comments on articles.
+ * 
+ * The `commentApi` object is a Redux Toolkit Query API that handles the following operations:
+ * - Fetching comments for a specific article
+ * - Creating a new comment for a specific article
+ * - Deleting a comment for a specific article
+ * 
+ * The API uses the `fetchBaseQuery` function to make HTTP requests to the `https://api.realworld.io/api/` base URL, and includes the user's authentication token in the request headers if available.
+ * 
+ * The API exposes the following endpoints:
+ * - `getComments`: Fetches the comments for a specific article, identified by its slug.
+ * - `createComment`: Creates a new comment for a specific article, identified by its slug, with the provided payload.
+ * - `deleteComment`: Deletes a specific comment for a specific article, identified by its slug and comment ID.
+ * 
+ * The API also exports hooks that can be used in functional components to interact with the API, such as `useGetCommentsQuery`, `useCreateCommentMutation`, and `useDeleteCommentMutation`.
+ */
 export const commentApi = createApi({
   reducerPath: 'commentApi',
   baseQuery: fetchBaseQuery({

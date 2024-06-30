@@ -1,8 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import { initialState } from '../../Interface/User/User.Interface';
+import { UserProfileInterface } from '../../Interface/profile/UserProfile.Interface';
 
 
+/**
+ * The Redux slice for managing the user state in the application.
+ * 
+ * This slice provides actions for setting the current user, updating the user's information, setting the user's token, and logging out the user.
+ * 
+ * The user's information is stored in the Redux store and persisted to localStorage.
+ */
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -14,12 +22,7 @@ export const userSlice = createSlice({
       state,
       action: PayloadAction<{ username: string; email: string; token: string; bio: string; image: string }>
     ) => {
-      // Clear previous user state
-      state.username = null;
-      state.email = null;
-      state.token = null;
-      state.bio = null;
-      state.image = null;
+
     
       // Set new user state
       localStorage.setItem('user', JSON.stringify({
@@ -45,12 +48,21 @@ export const userSlice = createSlice({
       if (action.payload.username) state.username = action.payload.username
       if (action.payload.bio) state.bio = action.payload.bio
       if (action.payload.image) state.image = action.payload.image
+
     },
 
 
      //  set token for user
      setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload
+    },
+
+
+    setUserProfile: (state, action: PayloadAction<UserProfileInterface>) => {
+      state.username = action.payload.profile.username;
+      state.bio = action.payload.profile.bio;
+      state.image = action.payload.profile.image;
+     
     },
 
 
@@ -71,6 +83,6 @@ logoutUser: (state) => {
 
 export const selectUser = (state: RootState) => state.user
 
-export const { setCurrentUser, updateUser,  logoutUser, setToken } = userSlice.actions
+export const { setCurrentUser, updateUser, logoutUser, setToken, setUserProfile } = userSlice.actions;
+export default userSlice.reducer;
 
-export default userSlice.reducer

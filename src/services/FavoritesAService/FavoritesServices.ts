@@ -1,6 +1,15 @@
 // src/services/favoritesApi.ts
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+/**
+ * Provides a Redux Toolkit Query API for interacting with the Favorites API of the RealWorld application.
+ * 
+ * The `favoritesApi` object exposes two mutations:
+ * - `useFavoriteArticleMutation`: Allows favoriting an article by its slug.
+ * - `useUnfavoriteArticleMutation`: Allows unfavoriting an article by its slug.
+ * 
+ * These mutations handle the necessary API requests and state management for favoriting and unfavoriting articles.
+ */
 export const favoritesApi = createApi({
   reducerPath: 'favoritesApi',
   baseQuery: fetchBaseQuery({

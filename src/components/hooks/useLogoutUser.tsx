@@ -4,6 +4,14 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 
+/**
+ * A custom hook that provides a function to log out the current user.
+ * 
+ * This hook clears the user data from local storage, dispatches the `logoutUser` action,
+ * navigates to the home page, and displays a success message using `react-toastify`.
+ * 
+ * @returns {function} A function that can be called to log out the current user.
+ */
 export const useLogoutUser = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();

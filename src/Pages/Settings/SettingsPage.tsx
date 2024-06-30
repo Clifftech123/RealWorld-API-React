@@ -3,7 +3,11 @@ import LayoutComponent from '../../components/Layout'
 import SettingsComponent from '../../components/User/SettingsComponent'
 
 
-// SettingsPage: Hosts SettingsComponent within LayoutComponent for user settings management.
+
+/**
+ * Renders the settings page, which includes the layout component and the settings component.
+ * @returns {JSX.Element} The rendered settings page.
+ */
 const SettingsPage = () => {
   
   return (

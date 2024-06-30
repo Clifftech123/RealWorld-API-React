@@ -2,6 +2,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { UserProfileInterface } from '../../Interface/profile/UserProfile.Interface';
 
+/**
+ * Provides a Redux Toolkit API for interacting with a user's profile data.
+ * 
+ * The `profileApi` object exposes the following endpoints:
+ * 
+ * - `useGetProfileQuery`: Fetches a user's profile data given a username.
+ * - `useFollowUserMutation`: Follows a user given a username.
+ * - `useUnfollowUserMutation`: Unfollows a user given a username.
+ * 
+ * These endpoints use the `@reduxjs/toolkit/query/react` library to handle the API calls and state management.
+ * 
+ * The API is configured to use the `https://api.realworld.io/api/` base URL, and includes an authorization header with a token stored in local storage, if available.
+ */
 export const profileApi = createApi({
   reducerPath: 'profileApi',
   baseQuery: fetchBaseQuery({

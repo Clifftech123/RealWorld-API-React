@@ -19,15 +19,24 @@ const CreateEditArticleComponent = () => {
   const [tagList, setTagList] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Define resetForm before its usage
-  const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setBody('');
-    setTagList([]);
-    setErrorMessage('');
-  };
 
+
+  /**
+   * Resets the form fields to their initial state.
+   */
+  const resetForm = () => {
+      setTitle('');
+      setDescription('');
+      setBody('');
+      setTagList([]);
+      setErrorMessage('');
+  };
+  /**
+   * Handles the submission of the article creation/edit form.
+   * 
+   * @param e - The form submission event.
+   * @returns Promise that resolves when the article is successfully created, or throws an error if there is a problem.
+   */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {

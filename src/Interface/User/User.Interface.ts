@@ -23,11 +23,11 @@
   
   // Initial state for user slice
  export  const initialState: UserState = {
-    username: null,
-    email: null,
-    token: null,
-    bio: null,
-    image: null,
+  username: '',
+  email: '',
+  token: '',
+  bio: '',
+  image: '',
     user: []
   
     

@@ -12,6 +12,15 @@ import ProtectedRoute from './ProtectedRout'
 
 
 
+/**
+ * Defines the main routing component for the application, handling both public and protected routes.
+ * 
+ * The `RouterComponent` is responsible for rendering the appropriate page components based on the current URL path.
+ * It includes routes for the home page, article page, user profile page, login page, and sign-up page.
+ * It also includes protected routes that require authentication, such as the article feed, settings page, and article editor.
+ * 
+ * The `ProtectedRoute` component is used to ensure that only authenticated users can access the protected routes.
+ */
 const RouterComponent = () => {
   return (
     <Routes>
