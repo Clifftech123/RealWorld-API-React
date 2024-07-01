@@ -66,7 +66,7 @@ export const articleApi = createApi({
     }),
 
     // Update an existing article by slug
-    updateArticle: builder.mutation<ArticleInterface, { slug: string; payload:  UpdateArticlePayloadInterface }>({
+    updateArticle: builder.mutation<ArticleInterface, { slug?: string; payload:  UpdateArticlePayloadInterface }>({
       query: ({ slug, payload }) => ({
         url: `articles/${slug}`,
         method: 'PUT',

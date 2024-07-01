@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useCreateCommentMutation, useDeleteCommentMutation, useGetCommentsQuery } from "../../services/CommentsServices/CommeService";
 import { toast } from "react-toastify";
 import { useFavoriteArticleMutation, useUnfavoriteArticleMutation } from "../../services/FavoritesAService/FavoritesServices";
-import { useFollowUserMutation,  useUnfollowUserMutation } from "../../services/ProfileServices/ProfileService";
+import { useFollowUserMutation, useUnfollowUserMutation } from "../../services/ProfileServices/ProfileService";
 
 
 
@@ -22,8 +22,6 @@ import { useFollowUserMutation,  useUnfollowUserMutation } from "../../services/
  * @returns {Promise<void>} - A Promise that resolves when the favorite status has been toggled.
  */
 const ArticleComponent = () => {
-
-
 
 
   // Extract the article slug from the URL parameters.
@@ -44,10 +42,6 @@ const ArticleComponent = () => {
   // Follow and Unfollow mutations
   const [followUser] = useFollowUserMutation();
   const [unfollowUser] = useUnfollowUserMutation();
-
-
-
-
 
 
   /**
@@ -251,7 +245,9 @@ const ArticleComponent = () => {
   };
 
 
-
+  const handleEditArticle = () => {
+    navigate(`/update/${article?.article.slug}`);
+  };
 
 
 
@@ -301,9 +297,13 @@ const ArticleComponent = () => {
                 {
                   token ? (
                     <>
-                      <button className="btn btn-sm btn-outline-secondary">
+                      <button
+                        className="btn btn-sm btn-outline-secondary"
+                        onClick={handleEditArticle}
+                      >
                         <i className="ion-edit"></i> Edit Article
                       </button>
+
                       <button className="btn btn-sm btn-outline-danger" onClick={handleDeleteArticle}>
                         <i className="ion-trash-a"></i> Delete Article
                       </button>
@@ -383,9 +383,14 @@ const ArticleComponent = () => {
                 {
                   token ? (
                     <>
-                      <button className="btn btn-sm btn-outline-secondary">
+                      <button
+                        className="btn btn-sm btn-outline-secondary"
+                        onClick={handleEditArticle}
+                      >
                         <i className="ion-edit"></i> Edit Article
                       </button>
+
+
                       <button className="btn btn-sm btn-outline-danger" onClick={handleDeleteArticle}>
                         <i className="ion-trash-a"></i> Delete Article
                       </button>

@@ -8,6 +8,7 @@ import SettingsPage from '../../Pages/Settings/SettingsPage'
 import CreateEditArticlePage from '../../Pages/Article/CreateEditArticlePage'
 import { ArticlesFeedComponent } from '../Article/ArticlesFeedComponent'
 import ProtectedRoute from './ProtectedRout'
+import UpdateArticlePage from '../../Pages/UpdateArticle/UpdateArticlePage.tsx'
 
 
 
@@ -31,6 +32,7 @@ const RouterComponent = () => {
     <Route path="/profile/:username" element={<UserProfilePage />} />
     <Route path="/login" element={<LoginPage />} />
     <Route path="/register" element={<SingUpPage />} />
+    <Route path="/update/:slug" element={<UpdateArticlePage />} />
 
     {/* Protected routes */}
     <Route element={<ProtectedRoute />}>
@@ -38,6 +40,7 @@ const RouterComponent = () => {
       <Route path="/settings" element={<SettingsPage />} />
       <Route path="/editor" element={<CreateEditArticlePage />} />
       <Route path="/editor/:slug" element={<CreateEditArticlePage />} />
+     
     </Route>
   </Routes>
   );

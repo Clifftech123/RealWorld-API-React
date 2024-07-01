@@ -2,6 +2,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query/react';
 import userReducer from '../features/auth/UserSlice'; 
+import  articlesReducer from '../features/articles/ArticlesSlices'; 
 import { userApi } from '../services/UserServices/userService';
 import { tagsApi } from '../services/TageServices/TageService'; 
 import { articleApi } from '../services/ArticlesServices/articleService';
@@ -14,6 +15,7 @@ import { favoritesApi } from '../services/FavoritesAService/FavoritesServices';
 export const store = configureStore({
   reducer: {
     user: userReducer, 
+    articles: articlesReducer,
     [userApi.reducerPath]: userApi.reducer, 
     [tagsApi.reducerPath]: tagsApi.reducer, 
     [articleApi.reducerPath]: articleApi.reducer, 

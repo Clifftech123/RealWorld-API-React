@@ -4,14 +4,10 @@ import { useGetRecentArticlesQuery } from "../../services/ArticlesServices/artic
 import { useGetTagsQuery } from "../../services/TageServices/TageService";
 import { useFavoriteArticleMutation, useUnfavoriteArticleMutation } from "../../services/FavoritesAService/FavoritesServices";
 import { NavLink, Outlet, useMatch } from "react-router-dom";
-import { useGetProfileQuery } from "../../services/ProfileServices/ProfileService";
-import { setUserProfile } from "../../features/auth/UserSlice";
-import { useAppDispatch } from "../../app/hook";
 
 const HomePage = () => {
 
 
-  const dispatch = useAppDispatch();
   const totalPages = 10
   const [selectedTag, setSelectedTag] = useState<string | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState<number>(1); // Start from page 1
@@ -30,40 +26,9 @@ const HomePage = () => {
     limit,
   });
 
-
-
-  // Extract the author's username from the article data
-  const username = articlesResponse?.articles[0]?.author.username;
-  console.log("username", username);
-
-
-
-  //  Get the profile data for the currently selected author.
-  const { data: profileData } = useGetProfileQuery<any>(username ?? '');
-
-
-
-  
-  /**
-   * Dispatches the user profile data to the Redux store when the profile data is available.
-   *
-   * This effect is used to update the user profile in the Redux store whenever the profile data is fetched and available. It ensures that the user's profile information is kept up-to-date in the application state.
-   *
-   * @param dispatch - The Redux dispatch function used to update the user profile in the store.
-   * @param profileData - The user profile data fetched from the API.
-   */
-  useEffect(() => {
-    if (profileData) {
-      dispatch(setUserProfile(profileData));
-    }
-  }, [dispatch, profileData]);
-
-
   // Favorite article mutation
   const [favoriteArticle] = useFavoriteArticleMutation();
   const [unfavoriteArticle] = useUnfavoriteArticleMutation();
-
-  
 
   /**
    * Refetches the recent articles based on the current page and selected tag.
@@ -75,10 +40,10 @@ const HomePage = () => {
    * @param refetch - The refetch function provided by the useGetRecentArticlesQuery hook.
    */
   useEffect(() => {
-    refetch(); 
+    refetch();
   }, [currentPage, selectedTag, refetch]);
-  
- // Handle favorite toggle
+
+  // Handle favorite toggle
   /**
    * Toggles the favorite status of an article.
    *
@@ -98,9 +63,7 @@ const HomePage = () => {
       console.error("Error toggling favorite status:", error);
     }
   };
-
-
-
+  
   /**
    * Handles the click event on a tag in the tag list.
    *
@@ -108,8 +71,8 @@ const HomePage = () => {
    * @returns void
    */
   const handleTagClick = (tag: string) => {
-      setSelectedTag(tag);
-      setCurrentPage(1);
+    setSelectedTag(tag);
+    setCurrentPage(1);
   };
 
 

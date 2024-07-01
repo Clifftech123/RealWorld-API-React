@@ -81,5 +81,6 @@ export interface UpdateArticlePayloadInterface {
     description?: string;
     body?: string;
     tagList?: string[];
+    slug?: string;
   };
 }
